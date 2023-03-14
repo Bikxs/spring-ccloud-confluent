@@ -5,7 +5,12 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
+    id("com.github.davidmc24.gradle.plugin.avro") version "1.6.0"
+    id ("idea")
 }
+
+
+
 
 group = "io.confluent.developer"
 version = "0.0.1-SNAPSHOT"
@@ -13,6 +18,10 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
+    maven(
+        url = "https://packages.confluent.io/maven"
+    )
+
 }
 
 extra["springCloudVersion"] = "2022.0.1"
@@ -23,7 +32,10 @@ dependencies {
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.apache.kafka:kafka-streams")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation ("com.github.javafaker:javafaker:1.0.2")
+    implementation("com.github.javafaker:javafaker:1.0.2")
+    implementation("org.apache.avro:avro:1.11.1")
+    implementation("io.confluent:kafka-avro-serializer:7.3.2")
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.cloud:spring-cloud-stream")
     implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
@@ -50,4 +62,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+tasks.withType<com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask> {
+    setOutputDir(file("src/dest/dir/"))
 }

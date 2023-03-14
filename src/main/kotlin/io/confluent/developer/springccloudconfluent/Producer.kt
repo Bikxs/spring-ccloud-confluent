@@ -30,7 +30,7 @@ class Producer(
         Flux.zip(interval, quotes)
             .map(Function<Tuple2<Long?, String?>, Any> { it: Tuple2<Long?, String?> ->
                 template.send(
-                    "hobbit",
+                    "hobbit-avro",
                     faker.random().nextInt(42),
                     it.t2
                 )
